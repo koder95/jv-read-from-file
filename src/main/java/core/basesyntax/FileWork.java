@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.StringJoiner;
 
 public class FileWork {
     public String[] readFromFile(String fileName) {
@@ -17,13 +18,14 @@ public class FileWork {
         }
         String[] split = read.split("[\\s\\p{P}]+");
         Arrays.sort(split, Comparator.naturalOrder());
-        StringBuilder builder = new StringBuilder();
+        StringJoiner joiner = new StringJoiner(System.lineSeparator());
         for (int i = 0; i < split.length; i++) {
             String word = split[i].toLowerCase();
+            split[i] = null;
             if (word.startsWith("w")) {
-                builder.append(word).append(' ');
+                joiner.add(word);
             }
         }
-        return builder.toString().split("\\s");
+        return joiner.toString().split("\\s");
     }
 }
