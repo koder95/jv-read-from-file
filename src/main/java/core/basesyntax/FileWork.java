@@ -17,9 +17,13 @@ public class FileWork {
         }
         String[] split = read.split("[\\s\\p{P}]+");
         Arrays.sort(split, Comparator.naturalOrder());
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < split.length; i++) {
-            split[i] = split[i].toLowerCase();
+            String word = split[i].toLowerCase();
+            if (word.startsWith("w")) {
+                builder.append(word).append(' ');
+            }
         }
-        return split;
+        return builder.toString().split("\\s");
     }
 }
