@@ -8,6 +8,11 @@ import java.util.Comparator;
 import java.util.StringJoiner;
 
 public class FileWork {
+
+    private static final String DELIMITER = " ";
+    private static final String PREFIX = "w";
+    private static final String REGEX = "[\\s\\p{P}]+";
+
     public String[] readFromFile(String fileName) {
         //write your code here
         String read = "";
@@ -16,16 +21,20 @@ public class FileWork {
         } catch (IOException e) {
             throw new RuntimeException("Cannot read the file", e);
         }
-        String[] split = read.split("[\\s\\p{P}]+");
+        if (read.isBlank()) {
+            return new String[0];
+        }
+        String[] split = read.toLowerCase().split(REGEX);
         Arrays.sort(split, Comparator.naturalOrder());
-        StringJoiner joiner = new StringJoiner(System.lineSeparator());
+        StringJoiner joiner = new StringJoiner(DELIMITER);
         for (int i = 0; i < split.length; i++) {
-            String word = split[i].toLowerCase();
+            String word = split[i];
             split[i] = null;
-            if (word.startsWith("w")) {
+            if (word.startsWith(PREFIX)) {
                 joiner.add(word);
             }
         }
-        return joiner.toString().split("\\s");
+        String result = joiner.toString();
+        return result.isBlank() ? new String[0] : result.split("\\s");
     }
 }
